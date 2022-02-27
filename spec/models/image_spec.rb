@@ -4,6 +4,8 @@ RSpec.describe Image, type: :model do
   it { should belong_to(:user) }
   it { should have_many(:image_tags) }
   it { should have_many(:tags).through(:image_tags) }
+  it { should validate_presence_of(:name) }
+  it { should validate_presence_of(:file) }
 
   # Test file types
   # Should only allow images
