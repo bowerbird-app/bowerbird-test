@@ -1,0 +1,25 @@
+services:
+  web:
+    build: .
+    image: bowerbird-test:latest
+    container_name: bowerbird-web
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/bowerbird-test
+    depends_on:
+      - db
+    env_file: .env
+    command: ["bin/rails", "server", "-b", "0.0.0.0"]
+
+  db:
+    image: postgres:14.2
+    container_name: bowerbird-db
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${bowerbird_database_user}
+      POSTGRES_PASSWORD: ${bowerbird_database_password}
+
+volumes:
+  db_data:
