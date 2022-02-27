@@ -1,0 +1,27 @@
+<div class="pt-5" style="background-color: #f1f1f1   ; min-height: calc(100vh - 58px);">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 offset-lg-3">
+        <div class="card p-4">
+          <div class="card-body">
+            <h3 class="card-title text-center mb-4">Sign in to BowerBird</h3>
+              <%= render 'shared/alert' if flash[:alert].present? %>
+              <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+                <div class="mb-3">
+                  <%= f.label :email, class: "form-label" %><br />
+                  <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", 'aria-describedby': "emailHelp" %>
+                </div>
+                <div class="mb-3">
+                  <%= f.label :password, class: "form-label" %><br />
+                  <%= f.password_field :password, autocomplete: "current-password", class: "form-control" %>
+                </div>
+                <div style="text-align: right;">
+                  <%= f.submit "Sign in", class: "btn btn-dark" %>
+                </div>
+              <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
