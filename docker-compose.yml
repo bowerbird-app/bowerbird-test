@@ -10,7 +10,7 @@ services:
     depends_on:
       - db
     env_file: .env
-    command: ["bin/rails", "server", "-b", "0.0.0.0"]
+    command: ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
 
   db:
     image: postgres:14.2
