@@ -4,7 +4,9 @@ class ImageUploader < CarrierWave::Uploader::Base
   # include CarrierWave::MiniMagick
 
   # Choose what kind of storage to use for this uploader:
-  storage :file
+  # we configure this in config/initializers/carrierwave.rb
+  # where we use :file for test environments and :for for other environments
+  # storage :file
   # storage :fog
 
   # Override the directory where uploaded files will be stored.
