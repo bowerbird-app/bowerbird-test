@@ -1,4 +1,5 @@
 class ImageTag < ApplicationRecord
+  # An image should not have duplicated tags
   validates :tag_id, uniqueness: { scope: :image_id }
   validates :probability, presence: true
 
