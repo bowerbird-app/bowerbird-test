@@ -51,6 +51,8 @@ group :development do
 end
 
 group :test do
+  # generate fake data using factory_bot
+  gem "factory_bot_rails", "~> 6.2"
 
   gem 'rspec-rails'
   gem 'faker'
