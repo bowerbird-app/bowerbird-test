@@ -45,6 +45,10 @@ class Image < ApplicationRecord
   end
 
   private
+    # Called before validation, this is to
+    # store file size in `image.file_size`
+    # column. This is to decrease loading
+    # times when quering file size.
     def set_file_size
       self.file_size = self.file.size
     end
