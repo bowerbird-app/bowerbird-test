@@ -97,5 +97,12 @@ RSpec.describe Image, type: :model do
         expect(Image.query("image")).to match_array(images)
       end
     end
+
+    context "callbacks" do
+      it "should set file size" do
+        image = FactoryBot.create(:image)
+        expect(image.file_size).not_to be_nil
+      end
+    end
   end
 end
