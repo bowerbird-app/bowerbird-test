@@ -3,6 +3,8 @@ class ImageUploader < CarrierWave::Uploader::Base
   # include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
 
+  after :store, :get_tags
+
   # Choose what kind of storage to use for this uploader:
   if Rails.env.test?
     storage :file
@@ -52,4 +54,8 @@ class ImageUploader < CarrierWave::Uploader::Base
   # def filename
   #   "something.jpg" if original_filename
   # end
+
+  def get_tags(file)
+    GetTagsJob.perform_async(model.id)
+  end
 end
