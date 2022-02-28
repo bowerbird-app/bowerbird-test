@@ -36,4 +36,9 @@ class Image < ApplicationRecord
 
     tags_list
   end
+
+  # Get all tag names in an array
+  def tag_names
+    self.tags.pluck(:name)
+  end
 end

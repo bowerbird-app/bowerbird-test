@@ -5,7 +5,7 @@
         <h2 class="text-center" id="newImageLabel">Upload Image</h2>
       </div>
       <div class="modal-body">
-        <%= form_with model: Image.new, multipart: true do |form| %>
+        <%= form_with model: image, multipart: true do |form| %>
           <div class="mb-3">
             <%= form.label :name, class: "form-label" %>
             <%= form.text_field :name, class: "form-control" %>
