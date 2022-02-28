@@ -1,5 +1,6 @@
 module Clarifai
   class GeneralImageRecognition
+    # Model ID and Version ID shall be retrieve from Clarifai Model packages
     MODEL_ID = "general-image-recognition"
     MODEL_VERSION_ID = 'aa7f35c01e0642fda5cf400f543e7c40'
 
