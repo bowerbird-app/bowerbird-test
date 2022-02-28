@@ -4,5 +4,5 @@ class ImageTag < ApplicationRecord
   validates :probability, presence: true
 
   belongs_to :image
-  belongs_to :tag
+  belongs_to :tag, counter_cache: true
 end
