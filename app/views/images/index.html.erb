@@ -13,18 +13,11 @@
       <% end %>
     </div>
 
-    <%= form_with method: :get do |f| %>
-      <div class="row">
-        <div class="col-lg-11 col-md-11 col-10">
-          <%= f.text_field :query, placeholder: "Search", class: "form-control" %>
-        </div>
-        <div class="col-lg-1 col-md-1 col-1">
-          <%= f.button class: "btn btn-light" do %>
-            <i class="bi bi-search"></i>
-          <% end %>
-        </div>
-      </div>
-    <% end %>
+    <%= render partial: 'shared/search_form' %>
+
+    <br>
+
+    <%= render partial: 'images/image_list', locals: { images: @images } %>
 
     <div class="table-responsive">
       <table class="table">

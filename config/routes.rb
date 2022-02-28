@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
   resources :images, only: [:index, :create, :show, :edit, :update, :destroy]
-  resources :tags
+  resources :tags, only: [:index, :show]
 
   unauthenticated do
     devise_scope :user do

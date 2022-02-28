@@ -3,11 +3,12 @@ class TagsController < ApplicationController
 
   # GET /tags or /tags.json
   def index
-    @tags = Tag.all
+    @tags = current_user.tags.uniq
   end
 
   # GET /tags/1 or /tags/1.json
   def show
+    @images = @tag.images.includes(:tags)
   end
 
   # GET /tags/new
