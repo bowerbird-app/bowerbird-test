@@ -76,5 +76,26 @@ RSpec.describe Image, type: :model do
         expect(Image.by_tag_name(tag.name)).to match_array(tag.images)
       end
     end
+
+    context "filter by image name" do
+      before do
+        ["Image1", "Image2", "Picture3"].each { |name| FactoryBot.create(:image, name: name) }
+      end
+
+      it "should filter case insensitive" do
+        images = Image.where(name: "Image1")
+        expect(Image.query("iMaGe1")).to match_array(images)
+      end
+
+      it "should filter partially" do
+        images = Image.where(name: "Image1")
+        expect(Image.query("1")).to match_array(images)
+      end
+
+      it "should filter by common file name" do
+        images = Image.where.not(name: "Picture3")
+        expect(Image.query("image")).to match_array(images)
+      end
+    end
   end
 end

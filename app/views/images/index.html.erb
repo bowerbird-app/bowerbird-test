@@ -1,11 +1,26 @@
 <div class="card shadow p-5">
   <div class="card-body">
     <h1 class="card-title">Images</h1>
-    <%# Tags filter %>
-    <% @images.tags_with_count(with_total: true).each do |k, v| %>
-      <%= link_to "#{k} (#{v})", images_path(tags: k), class: "btn btn-light rounded-pill" %>
+
+    <div class="tag-filters mb-3">
+      <% @images.tags_with_count(with_total: true).each do |k, v| %>
+        <%= link_to "#{k} (#{v})", images_path(tags: k), class: "btn btn-light rounded-pill" %>
+      <% end %>
+    </div>
+
+    <%= form_with method: :get do |f| %>
+      <div class="row">
+        <div class="col-lg-11 col-md-11 col-10">
+          <%= f.text_field :query, placeholder: "Search", class: "form-control" %>
+        </div>
+        <div class="col-lg-1 col-md-1 col-1">
+          <%= f.button class: "btn btn-light" do %>
+            <i class="bi bi-search"></i>
+          <% end %>
+        </div>
+      </div>
     <% end %>
-    <%# Search bar %>
+
     <div class="table-responsive">
       <table class="table">
         <thead>
@@ -28,7 +43,7 @@
               </td>
               <td>
                 <% image.tags.each do |tag| %>
-                  <%= link_to tag.name, tag_path(tag), class: "btn btn-light btn-sm rounded-pill" %>
+                  <%= link_to tag.name, tag_path(tag), class: "btn btn-light btn-sm rounded-pill mb-2" %>
                 <% end %>
               </td>
               <td class="text-center">

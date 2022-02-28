@@ -7,9 +7,17 @@ class Image < ApplicationRecord
   has_many :image_tags
   has_many :tags, through: :image_tags
 
+  # Searches by tag name
   scope :by_tag_name, -> (tag_name) do
     return self if tag_name.nil? || tag_name.casecmp?("all")
     self.joins(:tags).where("tags.name ILIKE ?", tag_name)
+  end
+
+  # Searches by name or description
+  scope :query, -> (query) do
+    return if !query.present?
+    self.where("images.name ILIKE ?", "%#{query}%")
+        .or(self.where("images.description ILIKE ?", "%#{query}%"))
   end
 
   # Group tags that a group of image has.

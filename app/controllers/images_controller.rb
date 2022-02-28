@@ -4,7 +4,10 @@ class ImagesController < ApplicationController
 
   # GET /images or /images.json
   def index
-    @images = current_user.images.by_tag_name(params[:tags]).includes(:tags)
+    @images = current_user.images
+                          .by_tag_name(params[:tags])
+                          .query(params[:query])
+                          .includes(:tags)
   end
 
   # GET /images/1 or /images/1.json
