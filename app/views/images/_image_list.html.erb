@@ -13,10 +13,10 @@
     <tbody>
       <% images.each do |image| %>
         <tr>
-          <td><%= image_tag image.file.url, alt: image.name, class: 'rounded', size: 100 %></td>
+          <td><%= image_tag image.file.url, alt: image.name, class: 'rounded', size: 100, loading: 'lazy' %></td>
           <td>
             <strong><%= image.name %></strong><br />
-            <%= number_to_human_size image.file.size %>
+            <%= number_to_human_size image.file_size %>
           </td>
           <td>
             <% image.tags.each do |tag| %>

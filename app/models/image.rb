@@ -7,6 +7,8 @@ class Image < ApplicationRecord
   has_many :image_tags
   has_many :tags, through: :image_tags
 
+  before_validation :set_file_size
+
   # Searches by tag name
   scope :by_tag_name, -> (tag_name) do
     return self if tag_name.nil? || tag_name.casecmp?("all")
@@ -41,4 +43,9 @@ class Image < ApplicationRecord
   def tag_names
     self.tags.pluck(:name)
   end
+
+  private
+    def set_file_size
+      self.file_size = self.file.size
+    end
 end
