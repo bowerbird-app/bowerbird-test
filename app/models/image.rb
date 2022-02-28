@@ -6,4 +6,21 @@ class Image < ApplicationRecord
   belongs_to :user
   has_many :image_tags
   has_many :tags, through: :image_tags
+
+  # Group tags that a group of image has.
+  # This is for displaying tags along with how
+  # many images does a tag has.
+  #
+  # Add `with_total: true` to add in total count.
+  def self.tags_with_count(with_total: false)
+    tags_list = self.joins(:tags)
+                    .pluck('tags.name')
+                    .group_by(&:itself)
+                    .map { |k, v| [ k, v.count ] }
+                    .to_h
+
+    with_total ? tags_list["All"] = self.count : nil
+
+    tags_list
+  end
 end

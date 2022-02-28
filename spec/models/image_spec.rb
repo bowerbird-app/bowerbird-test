@@ -20,4 +20,34 @@ RSpec.describe Image, type: :model do
       end.to raise_error(ActiveRecord::RecordInvalid)
     end
   end
+
+  context "class methods" do
+    context "tags_with_count method" do
+      before do
+        2.times { FactoryBot.create(:tag) }
+
+        Tag.all.each do |tag|
+          3.times { FactoryBot.create(:image_tag, tag: tag) }
+        end
+      end
+
+      it "groups tags and amount of images in it" do
+        expected_output = Tag.all.map do |tag|
+          [tag.name, tag.images.size]
+        end.to_h
+
+        expect(Image.tags_with_count).to include(expected_output)
+      end
+
+      it "groups tags and amount of images in it with total" do
+        expected_output = Tag.all.map do |tag|
+          [tag.name, tag.images.size]
+        end.to_h
+
+        expected_output["All"] = Image.all.size
+
+        expect(Image.tags_with_count(with_total: true)).to include(expected_output)
+      end
+    end
+  end
 end
