@@ -9,7 +9,7 @@
 
     <div class="tag-filters mb-3">
       <% @images.tags_with_count(with_total: true).each do |k, v| %>
-        <%= link_to "#{k} (#{v})", images_path(tags: k), class: "btn btn-light rounded-pill" %>
+        <%= link_to "#{k} (#{v})", images_path(tags: k), class: "btn btn-light rounded-pill mb-2" %>
       <% end %>
     </div>
 

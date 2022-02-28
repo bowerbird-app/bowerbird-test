@@ -20,8 +20,12 @@
         <br />
         <div class="tags">
           <h6>Tags</h6>
-          <% @image.tag_names.each do |tag| %>
-            <span class="badge bg-secondary"><%= tag %></span>
+          <% if @image.tag_names.empty? %>
+            <p>Fetching tags....</p>
+          <% else %>
+            <% @image.tag_names.each do |tag| %>
+              <span class="badge bg-secondary"><%= tag %></span>
+            <% end %>
           <% end %>
         </div>
       </div>
