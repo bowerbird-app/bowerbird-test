@@ -3,7 +3,7 @@
     <h1 class="card-title">Images</h1>
     <%# Tags filter %>
     <% @images.tags_with_count(with_total: true).each do |k, v| %>
-      <%= link_to "#{k} (#{v})", images_path, class: "btn btn-light rounded-pill" %>
+      <%= link_to "#{k} (#{v})", images_path(tags: k), class: "btn btn-light rounded-pill" %>
     <% end %>
     <%# Search bar %>
     <div class="table-responsive">

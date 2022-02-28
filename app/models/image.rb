@@ -7,6 +7,11 @@ class Image < ApplicationRecord
   has_many :image_tags
   has_many :tags, through: :image_tags
 
+  scope :by_tag_name, -> (tag_name) do
+    return self if tag_name.nil? || tag_name.casecmp?("all")
+    self.joins(:tags).where("tags.name ILIKE ?", tag_name)
+  end
+
   # Group tags that a group of image has.
   # This is for displaying tags along with how
   # many images does a tag has.

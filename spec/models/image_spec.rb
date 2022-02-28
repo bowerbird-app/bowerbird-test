@@ -50,4 +50,31 @@ RSpec.describe Image, type: :model do
       end
     end
   end
+
+  context "scopes" do
+    context "filter by tag name" do
+      before do
+        2.times { FactoryBot.create(:tag) }
+        5.times { Tag.all.each { |tag| FactoryBot.create(:image_tag, tag: tag) } }
+      end
+
+      it "should return all if params is empty" do
+        expect(Image.by_tag_name(nil)).to match_array(Image.all)
+      end
+
+      it "should return all if params is all" do
+        expect(Image.by_tag_name('all')).to match_array(Image.all)
+      end
+
+      it "should return all if params is ALl" do
+        expect(Image.by_tag_name('ALl')).to match_array(Image.all)
+      end
+
+      it "should return all if params is a existing tag name" do
+        tag = Tag.all.sample
+
+        expect(Image.by_tag_name(tag.name)).to match_array(tag.images)
+      end
+    end
+  end
 end
