@@ -1,6 +1,11 @@
 <div class="card shadow p-5">
   <div class="card-body">
-    <h1 class="card-title">Images</h1>
+    <h1 class="card-title">
+      Images
+      <button type="button" class="btn btn-light rounded-circle" data-bs-toggle="modal" data-bs-target="#newImage">
+        <i class="bi bi-plus-lg"></i>
+      </button>
+    </h1>
 
     <div class="tag-filters mb-3">
       <% @images.tags_with_count(with_total: true).each do |k, v| %>
@@ -69,3 +74,4 @@
   </div>
 </div>
 
+<%= render partial: "images/form" %>

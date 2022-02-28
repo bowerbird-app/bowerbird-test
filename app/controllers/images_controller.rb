@@ -7,6 +7,7 @@ class ImagesController < ApplicationController
     @images = current_user.images
                           .by_tag_name(params[:tags])
                           .query(params[:query])
+                          .order(created_at: :desc)
                           .includes(:tags)
   end
 
