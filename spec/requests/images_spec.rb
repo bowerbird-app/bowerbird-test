@@ -61,30 +61,6 @@ RSpec.describe "Images", type: :request do
     end
   end
 
-  describe "GET /images/new" do
-    context 'unauthenticated' do
-      it "returns status 302" do
-        get new_image_path
-        expect(response).to have_http_status(302)
-        follow_redirect!
-
-        expect(response).to render_template('devise/sessions/new')
-      end
-    end
-
-    context 'authenticated' do
-      let(:user) { FactoryBot.create(:user) }
-
-      before { sign_in user }
-
-      it "as an authenticated user returns status 200" do
-        get new_image_path
-        expect(response).to have_http_status(200)
-        expect(response).to render_template('images/new')
-      end
-    end
-  end
-
   describe "POST /images" do
     let(:user) { FactoryBot.create(:user) }
     let(:image_params) { { image: FactoryBot.attributes_for(:image, user: nil) } }
