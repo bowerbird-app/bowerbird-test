@@ -72,3 +72,5 @@ gem "devise", "~> 4.8"
 gem "carrierwave-aws", "~> 1.4"
 
 gem "faraday", "~> 2.2", require: false
+
+gem "sidekiq", "~> 6.4"

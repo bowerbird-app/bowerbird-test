@@ -1,16 +1,26 @@
+x-container-configuration:
+  &development-container
+  build: .
+  image: bowerbird-test:latest
+  volumes:
+    - .:/bowerbird-test
+  env_file: .env
+  depends_on:
+    - db
+    - redis
+
 services:
   web:
-    build: .
-    image: bowerbird-test:latest
+    << : *development-container
     container_name: bowerbird-web
     ports:
       - 3000:3000
-    volumes:
-      - .:/bowerbird-test
-    depends_on:
-      - db
-    env_file: .env
     command: ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+
+  worker:
+    << : *development-container
+    container_name: bowerbird-worker
+    command: ["bundle", "exec", "sidekiq"]
 
   db:
     image: postgres:14.2
@@ -21,5 +31,12 @@ services:
       POSTGRES_USER: ${bowerbird_database_user}
       POSTGRES_PASSWORD: ${bowerbird_database_password}
 
+  redis:
+    image: redis:6.2.6
+    container_name: bowerbird-redis
+    volumes:
+      - redis_data:/data
+
 volumes:
   db_data:
+  redis_data:
