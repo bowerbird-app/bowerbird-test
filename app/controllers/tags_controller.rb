@@ -9,7 +9,7 @@ class TagsController < ApplicationController
 
   # GET /tags/1 or /tags/1.json
   def show
-    @images = @tag.images.includes(:tags)
+    @images = @tag.images.query(params[:query]).includes(:tags)
   end
 
   private
