@@ -25,11 +25,14 @@ class ImagesController < ApplicationController
 
     respond_to do |format|
       if @image.save
-        format.html { redirect_to @image, notice: "Image was successfully created." }
-        format.json { render :show, status: :created, location: @image }
+        format.html do
+          redirect_to @image, notice: "Image was successfully created."
+        end
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @image.errors, status: :unprocessable_entity }
+        format.html do
+          flash[:alert] = @image.errors.full_messages
+          redirect_back fallback_location: root_path
+        end
       end
     end
   end
