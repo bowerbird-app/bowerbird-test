@@ -72,3 +72,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # using devise for user authentication
 gem "devise", "~> 4.8"
+
+# using pagy for pagination
+gem "pagy", "~> 5.10"
