@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_27_090707) do
+ActiveRecord::Schema.define(version: 2022_03_01_043240) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,4 +54,17 @@ ActiveRecord::Schema.define(version: 2022_02_27_090707) do
 
   add_foreign_key "image_tags", "images"
   add_foreign_key "image_tags", "tags"
+
+  create_view "tag_views", sql_definition: <<-SQL
+      SELECT tags.id,
+      tags.name,
+      tags.created_at,
+      tags.updated_at,
+      COALESCE(image_tags_count.count, (0)::bigint) AS total_images_count
+     FROM (tags
+       LEFT JOIN ( SELECT image_tags.tag_id,
+              count(*) AS count
+             FROM image_tags
+            GROUP BY image_tags.tag_id) image_tags_count ON ((tags.id = image_tags_count.tag_id)));
+  SQL
 end
