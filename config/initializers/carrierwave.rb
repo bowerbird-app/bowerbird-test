@@ -1,7 +1,7 @@
 CarrierWave.configure do |config|
   # For an application which utilizes multiple servers but does not need caches persisted across requests,
   # uncomment the line :file instead of the default :storage.  Otherwise, it will use AWS as the temp cache store.
-  config.cache_storage = :file
+  # config.cache_storage = :file
 
   if Rails.env.test?
     config.storage = :file
