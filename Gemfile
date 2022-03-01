@@ -78,3 +78,6 @@ gem "devise", "~> 4.8"
 
 # using pagy for pagination
 gem "pagy", "~> 5.10"
+
+# using db view to aggregate total image count
+gem "scenic", "~> 1.6"
