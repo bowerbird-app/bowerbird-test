@@ -21,8 +21,8 @@
                 </span>
                 <% end %>
               </div>
-
-            <%= render partial: 'table' %>
+            <%= render partial: 'shared/search_bar', locals: { search_path: root_path } %>
+            <%= render partial: 'shared/images_table', locals: { images: @images, current_sort_by: current_sort_by, sort_path: root_path(query_params.merge(sort_by: reverse_sort_by)) } %>
             <%== pagy_bootstrap_nav(@pagy) %>
           </div>
         </div>
