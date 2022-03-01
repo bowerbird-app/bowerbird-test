@@ -1,9 +1,11 @@
 class TagsController < ApplicationController
+  before_action :set_tags, only: [:index]
   before_action :set_tag, only: %i[ show edit update destroy ]
+  before_action :set_images, only: [:show]
 
   # GET /tags or /tags.json
   def index
-    @tags = Tag.all
+    @pagy, @tags = pagy(@tags)
   end
 
   # GET /tags/1 or /tags/1.json
@@ -65,5 +67,26 @@ class TagsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def tag_params
       params.require(:tag).permit(:name)
+    end
+
+    def set_tags
+      @tags = TagView.all
+      @tags = @tags.query_by_name(params[:name]) if params[:name].present?
+      if params[:sort_by].present? and params[:sort_by] == 'desc'
+        @tags = @tags.order(name: :desc)
+      else
+        @tags = @tags.order(name: :asc)
+      end
+    end
+
+    def set_images
+      @images = @tag.images.includes(:tags)
+      @images = @images.query_by_name(params[:name]) if params[:name].present?
+      if params[:sort_by].present? and params[:sort_by] == 'desc'
+        @images = @images.order(name: :desc)
+      else
+        @images = @images.order(name: :asc)
+      end
+      @pagy, @images = pagy(@images)
     end
 end
