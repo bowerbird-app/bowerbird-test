@@ -14,7 +14,7 @@ class TagsController < ApplicationController
 
   # GET /tags/new
   def new
-    @tag = Tag.new
+    @tag = current_user.tags.new
   end
 
   # GET /tags/1/edit
@@ -23,7 +23,7 @@ class TagsController < ApplicationController
 
   # POST /tags or /tags.json
   def create
-    @tag = Tag.new(tag_params)
+    @tag = current_user.tags.new(tag_params)
 
     respond_to do |format|
       if @tag.save
@@ -61,7 +61,7 @@ class TagsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_tag
-      @tag = Tag.find(params[:id])
+      @tag = current_user.tags.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
@@ -70,7 +70,7 @@ class TagsController < ApplicationController
     end
 
     def set_tags
-      @tags = TagView.all
+      @tags = current_user.tag_views
       @tags = @tags.query_by_name(params[:name]) if params[:name].present?
       @tags = name_sortable(@tags)
     end

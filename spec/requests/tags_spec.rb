@@ -1,9 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe "/tags", type: :request do
+  let(:user) { create(:user) }
 
   before do
-    login_as create(:user)
+    login_as user
   end
   
   describe 'POST #create' do
@@ -19,7 +20,7 @@ RSpec.describe "/tags", type: :request do
 
     context 'with duplicated name' do
       it 'should not create new tag' do
-        tag = create(:tag)
+        tag = create(:tag, user_id: user.id)
         expect {
           post tags_path, params: {
             tag: { name: tag.name }
@@ -31,7 +32,7 @@ RSpec.describe "/tags", type: :request do
 
   describe 'GET #index' do
     it 'should show list of tags' do
-      tags = create_list(:tag, 3)
+      tags = create_list(:tag, 3, user_id: user.id)
       # we're using TagView instead of Tag
       tag_views = TagView.where(id: tags.map(&:id))
       get tags_path
@@ -41,8 +42,8 @@ RSpec.describe "/tags", type: :request do
     end
 
     it 'should filter list of tag by name' do
-      tags = create_list(:tag, 3)
-      target_tag = create(:tag)
+      tags = create_list(:tag, 3, user_id: user.id)
+      target_tag = create(:tag, user_id: user.id)
       # we're using TagView instead of Tag
       tag_views = TagView.where(id: tags.map(&:id))
       target_tag_view = TagView.find(target_tag.id)
@@ -55,9 +56,9 @@ RSpec.describe "/tags", type: :request do
 
   describe 'GET #show' do
     it 'should show an tag page' do
-      tag = create(:tag)
-      images1 = create_list(:image, 3)
-      images2 = create_list(:image, 3)
+      tag = create(:tag, user_id: user.id)
+      images1 = create_list(:image, 3, user_id: user.id)
+      images2 = create_list(:image, 3, user_id: user.id)
       images2.each do |image|
         image.image_tags.create(tag_id: tag.id)
       end

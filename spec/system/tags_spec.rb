@@ -1,12 +1,14 @@
 require "rails_helper"
 
 RSpec.describe "Tags System Test", type: :system do
+  let(:user) { create(:user) }
+
   before do 
-    login_as create(:user)
+    login_as user
   end
   
   it "should show list of tags" do
-    tags = create_list(:tag, 3)
+    tags = create_list(:tag, 3, user_id: user.id)
     visit tags_path
     expect(page).to have_current_path(tags_path)
     expect(page).to have_content("Tags")
@@ -16,8 +18,8 @@ RSpec.describe "Tags System Test", type: :system do
   end
 
   it "should show tag page" do
-    tag = create(:tag)
-    images = create_list(:image, 3)
+    tag = create(:tag, user_id: user.id)
+    images = create_list(:image, 3, user_id: user.id)
     images.each do |image|
       image.image_tags.create(tag_id: tag.id)
     end

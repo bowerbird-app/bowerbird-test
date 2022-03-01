@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_01_131056) do
+ActiveRecord::Schema.define(version: 2022_03_01_132533) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,8 @@ ActiveRecord::Schema.define(version: 2022_03_01_131056) do
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_tags_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -57,12 +59,14 @@ ActiveRecord::Schema.define(version: 2022_03_01_131056) do
   add_foreign_key "image_tags", "images"
   add_foreign_key "image_tags", "tags"
   add_foreign_key "images", "users"
+  add_foreign_key "tags", "users"
 
   create_view "tag_views", sql_definition: <<-SQL
       SELECT tags.id,
       tags.name,
       tags.created_at,
       tags.updated_at,
+      tags.user_id,
       COALESCE(image_tags_count.count, (0)::bigint) AS total_images_count
      FROM (tags
        LEFT JOIN ( SELECT image_tags.tag_id,

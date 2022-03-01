@@ -25,5 +25,7 @@ RSpec.describe User, type: :model do
 
   context 'association test' do
     it { should have_many(:images) }
+    it { should have_many(:tags) }
+    it { should have_many(:tag_views) }
   end
 end
