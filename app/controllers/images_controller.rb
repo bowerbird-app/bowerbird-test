@@ -1,9 +1,10 @@
 class ImagesController < ApplicationController
+  before_action :set_tags, :set_images, only: [:index]
   before_action :set_image, only: %i[ show edit update destroy ]
 
   # GET /images or /images.json
   def index
-    @images = Image.all
+    @pagy, @images = pagy(@images)
   end
 
   # GET /images/1 or /images/1.json
@@ -65,5 +66,22 @@ class ImagesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def image_params
       params.require(:image).permit(:name, :file, :description)
+    end
+
+    def set_images
+      @all_images = @images = Image.all.includes(:tags)
+      @all_images = @images = @images.query_by_name(params[:name]) if params[:name].present?
+      @images = @images.filter_by_tag(params[:tag_id]) if params[:tag_id].present?
+      if params[:sort_by].present? and params[:sort_by] == 'desc'
+        @images = @images.order(name: :desc)
+      else
+        @images = @images.order(name: :asc)
+      end
+    end
+
+    def set_tags
+      # we just want the tags with images
+      @tags = Tag.includes(:image_tags).where.not(image_tags: { image_id: nil })
+      @tags = @tags.includes(:images).where('images.name ILIKE ?', "%#{params[:name]}%") if params[:name].present?
     end
 end

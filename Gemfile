@@ -12,7 +12,8 @@ gem 'rails', '~> 6.1.4'
 gem 'pg'
 
 # Use carrierwave for uploader
-gem 'carrierwave', '1.3.2'
+gem 'carrierwave', '~> 2.2.2'
+gem "fog-aws", "~> 3.13"
 
 # Use Puma as the app server
 gem 'puma', '~> 5.0'
@@ -51,6 +52,11 @@ group :development do
 end
 
 group :test do
+  # model testing matchers
+  gem "shoulda", "~> 4.0"
+  
+  # generate fake data using factory_bot
+  gem "factory_bot_rails", "~> 6.2"
 
   gem 'rspec-rails'
   gem 'faker'
@@ -67,6 +73,14 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-
 # http 1.1 library for making API calls
 gem "excon", "~> 0.91.0"
+
+# using devise for user authentication
+gem "devise", "~> 4.8"
+
+# using pagy for pagination
+gem "pagy", "~> 5.10"
+
+# using db view to aggregate total image count
+gem "scenic", "~> 1.6"

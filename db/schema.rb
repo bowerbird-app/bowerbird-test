@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_14_085317) do
+ActiveRecord::Schema.define(version: 2022_03_01_043240) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 2021_09_14_085317) do
     t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "size"
   end
 
   create_table "tags", force: :cascade do |t|
@@ -39,6 +40,31 @@ ActiveRecord::Schema.define(version: 2021_09_14_085317) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
   add_foreign_key "image_tags", "images"
   add_foreign_key "image_tags", "tags"
+
+  create_view "tag_views", sql_definition: <<-SQL
+      SELECT tags.id,
+      tags.name,
+      tags.created_at,
+      tags.updated_at,
+      COALESCE(image_tags_count.count, (0)::bigint) AS total_images_count
+     FROM (tags
+       LEFT JOIN ( SELECT image_tags.tag_id,
+              count(*) AS count
+             FROM image_tags
+            GROUP BY image_tags.tag_id) image_tags_count ON ((tags.id = image_tags_count.tag_id)));
+  SQL
 end

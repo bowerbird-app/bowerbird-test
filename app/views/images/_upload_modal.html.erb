@@ -1,0 +1,25 @@
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h4 class="modal-title text-center pt-3 pb-3" id="exampleModalLabel">Upload Image</h4>
+        <div class="m-4">
+          <%= form_with model: Image.new, multipart: true do |form| %>
+            <div class="mb-4">
+              <%= form.label :title, class: "form-label" %>
+              <%= form.text_field :name, class: "form-control", placeholder: "Sydney Opera House" %>
+            </div>
+            <div class="mb-4">
+              <%= form.label :image, class: "form-label mb-0" %>
+              <br>
+              <%= form.file_field :file, class: "file-control" %>
+            </div>
+            <div style="text-align: right;">
+              <%= form.submit "Upload", class: "btn btn-primary btn-sm bg-dark light-text rounded-3" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
