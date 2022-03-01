@@ -52,6 +52,10 @@ group :development do
 end
 
 group :test do
+  # using webmork to stub http request for external API
+  # and sinatra to provive a mock response
+  gem "webmock", "~> 3.14"
+  gem "sinatra", "~> 2.2"
   # model testing matchers
   gem "shoulda", "~> 4.0"
   
