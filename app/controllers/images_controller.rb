@@ -72,11 +72,7 @@ class ImagesController < ApplicationController
       @all_images = @images = Image.all.includes(:tags)
       @all_images = @images = @images.query_by_name(params[:name]) if params[:name].present?
       @images = @images.filter_by_tag(params[:tag_id]) if params[:tag_id].present?
-      if params[:sort_by].present? and params[:sort_by] == 'desc'
-        @images = @images.order(name: :desc)
-      else
-        @images = @images.order(name: :asc)
-      end
+      @images = name_sortable(@images)
     end
 
     def set_tags

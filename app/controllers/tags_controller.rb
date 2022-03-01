@@ -72,21 +72,13 @@ class TagsController < ApplicationController
     def set_tags
       @tags = TagView.all
       @tags = @tags.query_by_name(params[:name]) if params[:name].present?
-      if params[:sort_by].present? and params[:sort_by] == 'desc'
-        @tags = @tags.order(name: :desc)
-      else
-        @tags = @tags.order(name: :asc)
-      end
+      @tags = name_sortable(@tags)
     end
 
     def set_images
       @images = @tag.images.includes(:tags)
       @images = @images.query_by_name(params[:name]) if params[:name].present?
-      if params[:sort_by].present? and params[:sort_by] == 'desc'
-        @images = @images.order(name: :desc)
-      else
-        @images = @images.order(name: :asc)
-      end
+      @images = name_sortable(@images)
       @pagy, @images = pagy(@images)
     end
 end
