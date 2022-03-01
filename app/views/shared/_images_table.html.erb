@@ -37,7 +37,7 @@
           </div>
         </td>
         <td>
-          <% image.tags.each do |tag| %>
+          <% image.tags.sort_by(&:name).each do |tag| %>
           <%= link_to "#{tag.name}", tag_path(tag), class: "fs-6 fw-normal badge bg-light text-dark", style: "text-decoration: none;"%>
           <% end %>
         </td>
