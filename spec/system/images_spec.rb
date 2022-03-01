@@ -1,13 +1,15 @@
 require "rails_helper"
 
 RSpec.describe "Images System Test", type: :system do
+  let(:user) { create(:user) }
+
   before do 
-    login_as create(:user)
+    login_as user
   end
   
   
   it "should show list of images" do
-    images = create_list(:image, 3)
+    images = create_list(:image, 3, user_id: user.id)
     visit root_path
     # should be able to visit root_path if logged in
     expect(page).to have_current_path(root_path)
@@ -18,7 +20,7 @@ RSpec.describe "Images System Test", type: :system do
   end
 
   it "should show image page" do
-    image = create(:image)
+    image = create(:image, user_id: user.id)
     # can't use image_path because it's referenced to the screenshot
     visit image_url(image)
     expect(page).to have_current_path("/images/#{image.id}")
@@ -38,7 +40,7 @@ RSpec.describe "Images System Test", type: :system do
   it "should delete image from index page" do
     # rack_test doesn't support click on alert box
     driven_by(:selenium)
-    image = create(:image)
+    image = create(:image, user_id: user.id)
     visit root_path
     click_on("Action")
     click_on("Delete")
@@ -50,7 +52,7 @@ RSpec.describe "Images System Test", type: :system do
   it "should delete image from show page" do
     # rack_test doesn't support click on alert box
     driven_by(:selenium)
-    image = create(:image)
+    image = create(:image, user_id: user.id)
     # for some reasons capybara get stucked whenever it is
     # trying to visit image_url(image)
     # possibly because it's referencing to selenium driver method?

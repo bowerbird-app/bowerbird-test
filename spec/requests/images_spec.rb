@@ -2,8 +2,10 @@ require 'rails_helper'
 
 RSpec.describe "/images", type: :request do
 
+  let(:user) { create(:user) }
+
   before do
-    login_as create(:user)
+    login_as user
   end
   
   describe 'POST #create' do
@@ -30,7 +32,7 @@ RSpec.describe "/images", type: :request do
 
   describe 'GET #index' do
     it 'should show list of images' do
-      images = create_list(:image, 3)
+      images = create_list(:image, 3, user_id: user.id)
       get images_path
       expect(assigns(:images)).to match_array(images)
       expect(response).to have_http_status(200)
@@ -38,8 +40,8 @@ RSpec.describe "/images", type: :request do
     end
 
     it 'should filter list of images by name' do
-      images = create_list(:image, 3)
-      target_image = create(:image)
+      images = create_list(:image, 3, user_id: user.id)
+      target_image = create(:image, user_id: user.id)
       get images_path(name: target_image.name)
       expect(assigns(:images)).to match_array([target_image])
       expect(response).to have_http_status(200)
@@ -50,8 +52,8 @@ RSpec.describe "/images", type: :request do
       # setting up 2 images with different tag_id
       tag1 = create(:tag)
       tag2 = create(:tag)
-      image1 = create(:image)
-      image2 = create(:image)
+      image1 = create(:image, user_id: user.id)
+      image2 = create(:image, user_id: user.id)
       image1.image_tags.create(tag_id: tag1.id)
       image2.image_tags.create(tag_id: tag2.id)
 
@@ -66,9 +68,9 @@ RSpec.describe "/images", type: :request do
       name = Faker::Lorem.words(number: 4).join(' ')
       tag1 = create(:tag)
       tag2 = create(:tag)
-      image1 = create(:image, name: name)
-      image2 = create(:image, name: name)
-      image3 = create(:image, name: name)
+      image1 = create(:image, name: name, user_id: user.id)
+      image2 = create(:image, name: name, user_id: user.id)
+      image3 = create(:image, name: name, user_id: user.id)
       image1.image_tags.create(tag_id: tag1.id)
       image2.image_tags.create(tag_id: tag2.id)
       image3.image_tags.create(tag_id: tag2.id)
@@ -82,7 +84,7 @@ RSpec.describe "/images", type: :request do
 
   describe 'GET #show' do
     it 'should show an image page' do
-      image = create(:image)
+      image = create(:image, user_id: user.id)
       get image_path(image)
       expect(response).to have_http_status(200)
       expect(response).to render_template(:show)
@@ -91,7 +93,7 @@ RSpec.describe "/images", type: :request do
 
   describe 'DELETE #destroy' do
     it 'should delete image' do
-      image = create(:image)
+      image = create(:image, user_id: user.id)
       expect {
         delete image_path(image)
       }.to change(Image, :count).by(-1)

@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :image do
+    user_id         { create(:user).id }
     name            { Faker::Lorem.words(number: 4).join(' ') }
     remote_file_url { 'https://loremflickr.com/300/300/building' }
 

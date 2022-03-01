@@ -13,7 +13,7 @@ class ImagesController < ApplicationController
 
   # GET /images/new
   def new
-    @image = Image.new
+    @image = current_user.images.new
   end
 
   # GET /images/1/edit
@@ -22,7 +22,7 @@ class ImagesController < ApplicationController
 
   # POST /images or /images.json
   def create
-    @image = Image.new(image_params)
+    @image = current_user.images.new(image_params)
 
     respond_to do |format|
       if @image.save
@@ -60,7 +60,7 @@ class ImagesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_image
-      @image = Image.find(params[:id])
+      @image = current_user.images.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
@@ -69,7 +69,7 @@ class ImagesController < ApplicationController
     end
 
     def set_images
-      @all_images = @images = Image.all.includes(:tags)
+      @all_images = @images = current_user.images.includes(:tags)
       @all_images = @images = @images.query_by_name(params[:name]) if params[:name].present?
       @images = @images.filter_by_tag(params[:tag_id]) if params[:tag_id].present?
       @images = name_sortable(@images)
