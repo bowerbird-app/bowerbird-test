@@ -52,6 +52,9 @@ group :development do
 end
 
 group :test do
+  # model testing matchers
+  gem "shoulda", "~> 4.0"
+  
   # generate fake data using factory_bot
   gem "factory_bot_rails", "~> 6.2"
 
@@ -72,3 +75,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # using devise for user authentication
 gem "devise", "~> 4.8"
+
+# using pagy for pagination
+gem "pagy", "~> 5.10"

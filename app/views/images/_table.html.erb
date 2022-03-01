@@ -1,0 +1,77 @@
+<div class="p-4">
+  <%= form_tag root_path, method: :get, class: "d-flex" do %>
+  <%= text_field_tag(:name, query_params[:name], class: 'form-control w-100', placeholder: 'Search') %>
+  <% query_params.except(:name).each do |param| %>
+  <%= hidden_field_tag(*param) %>
+  <% end %>
+  <%= button_tag name: nil, type: 'submit', class: 'btn btn-sm border', style: 'margin-left: 15px;' do %>
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+      class="bi bi-search" viewBox="0 0 16 16">
+      <path
+        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+    </svg>
+  <% end %>
+  <% end %>
+</div>
+<div class="overflow-auto">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th class="fs-6 fw-bold" scope="col">
+          Name
+          <%= link_to images_path(query_params.merge(sort_by: reverse_sort_by)), class: "m-1 p-1 rounded-circle" do %>
+            <% if current_sort_by == 'desc' %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+              </svg>
+            <% else %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+              </svg>
+            <% end %>
+          <% end %>
+        </th>
+        <th class="fw-normal fs-6" scope="col">Tags</th>
+        <th class="fw-normal fs-6 text-center" scope="col">Total Tags</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @images.each do |image| %>
+      <tr>
+        <td>
+          <div class="d-flex float-end">
+            <img src="<%= image.file.url %>" class="rounded-3">
+          </div>
+        </td>
+        <td>
+          <div class="col-10 text-truncate">
+            <span class="fw-bold fs-5"><%= image.name %></span>
+            <p class="fs-6 pt-2"><%= number_to_human_size(image.size) %></p>
+          </div>
+        </td>
+        <td>
+          <% image.tags.each do |tag| %>
+          <%= link_to "#{tag.name}", tag_path(tag), class: "fs-6 fw-normal badge bg-light text-dark", style: "text-decoration: none;"%>
+          <% end %>
+        </td>
+        <td class="text-center"><div class="fs-6"><%= image.tags.length %></div></td>
+        <td class="text-center">
+          <div class="dropdown">
+            <button class="btn btn-sm btn-light border dropdown-toggle" type="button"
+              id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Action
+            </button>
+            <div class="dropdown-menu text-center" aria-labelledby="dropdownMenuButton">
+              <%= link_to 'View', image_path(image), class: 'dropdown-item' %>
+              <%= link_to 'Edit', edit_image_path(image), class: 'dropdown-item' %>
+              <%= link_to 'Delete', image_path(image), method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item' %>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

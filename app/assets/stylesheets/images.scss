@@ -1,3 +1,52 @@
 // Place all the styles related to the Images controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+td img {
+  width: 75px;
+}
+
+tbody tr {
+  height: 110px;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0 15px;
+}
+
+thead tr {
+  height: 70px;
+  vertical-align: middle;
+}
+
+a.btn {
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.35);
+  border-radius: 8px;
+  margin-right: 15px;
+}
+
+.tag-name {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  margin-right: 10px;
+  text-decoration: none;
+}
+
+th a:hover, .new-image-button:hover {
+  background-color: #fff;
+  color: #000;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.35);
+}
+
+.new-image-button:hover {
+  background-color: #fff;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.35);
+}
+
+.tag-button a {
+  margin-right: 15px;
+  margin-top: 15px;
+  text-decoration: none;
+}
