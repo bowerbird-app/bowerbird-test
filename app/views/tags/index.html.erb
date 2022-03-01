@@ -1,29 +1,24 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Tags</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Total Images</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @tags.each do |tag| %>
-      <tr>
-        <td><%= tag.name %></td>
-        <td><%= tag.images.count %></td>
-        <td><%= link_to 'Show', tag %></td>
-        <td><%= link_to 'Edit', edit_tag_path(tag) %></td>
-        <td><%= link_to 'Destroy', tag, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Tag', new_tag_path %>
+<%= render partial: 'new_modal' %>
+<div class="py-5 px-4" style="background-color: #f1f1f1; min-height: calc(100vh - 58px);">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body p-0">
+            <div class="p-4">
+              <h4 class="card-title mb-4">
+                <span style="font-size: 32px; line-height: 40px; font-weight: normal;">Tags</span>
+                <a href="#" class="m-1 px-2 border rounded-circle new-tag-button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <svg width="15" height="15" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18.5714 7.85714H12.1429V1.42857C12.1429 0.639732 11.5031 0 10.7143 0H9.28571C8.49687 0 7.85714 0.639732 7.85714 1.42857V7.85714H1.42857C0.639732 7.85714 0 8.49687 0 9.28571V10.7143C0 11.5031 0.639732 12.1429 1.42857 12.1429H7.85714V18.5714C7.85714 19.3603 8.49687 20 9.28571 20H10.7143C11.5031 20 12.1429 19.3603 12.1429 18.5714V12.1429H18.5714C19.3603 12.1429 20 11.5031 20 10.7143V9.28571C20 8.49687 19.3603 7.85714 18.5714 7.85714Z" fill="#333333"/>
+                  </svg>
+                </a>
+              </h4>
+            <%= render partial: 'table' %>
+            <%== pagy_bootstrap_nav(@pagy) %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

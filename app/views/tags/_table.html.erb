@@ -1,0 +1,61 @@
+<div class="p-4">
+  <%= form_tag tags_path, method: :get, class: "d-flex" do %>
+  <%= text_field_tag(:name, params[:name], class: 'form-control w-100', placeholder: 'Search') %>
+  <% query_params.except(:name).each do |param| %>
+  <% end %>
+  <%= button_tag name: nil, type: 'submit', class: 'btn btn-sm border', style: 'margin-left: 15px;' do %>
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+      class="bi bi-search" viewBox="0 0 16 16">
+      <path
+        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+    </svg>
+  <% end %>
+  <% end %>
+</div>
+<div class="overflow-auto">
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="fs-6 fw-bold w-25" scope="col">
+          <span class="tag-list-padding">
+          Tag
+          </span> 
+          <%= link_to tags_path(query_params.merge(sort_by: reverse_sort_by)), class: "m-1 p-1 rounded-circle" do %>
+            <% if current_sort_by == 'desc' %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+              </svg>
+            <% else %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+              </svg>
+            <% end %>
+          <% end %>
+        </th>
+        <th class="fw-normal fs-6 text-center" scope="col">Total Images</th>
+        <th class="w-50" scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @tags.each do |tag| %>
+      <tr>
+        <td>
+          <p class="fw-bold fs-6 tag-list-padding"><%= tag.name %></p>
+        </td>
+        <td class="text-center"><div class="fs-6"><%= tag.total_images_count %></div></td>
+        <td class="align-center">
+          <div class="dropdown d-flex flex-row-reverse">
+            <button class="btn btn-sm btn-light border dropdown-toggle mx-5 tags-table-dropdown" type="button"
+              id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Action
+            </button>
+            <div class="dropdown-menu fs-6 text-center" aria-labelledby="dropdownMenuButton">
+              <%= link_to 'View', tag_path(tag), class: 'dropdown-item' %>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
