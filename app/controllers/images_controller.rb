@@ -4,11 +4,14 @@ class ImagesController < ApplicationController
 
   # GET /images or /images.json
   def index
-    @images = current_user.images
+    images = current_user.images
                           .by_tag_name(params[:tags])
                           .query(params[:query])
                           .order(created_at: :desc)
                           .includes(:tags)
+
+    @tags = images.tags_with_count(with_total: true)
+    @pagy, @images = pagy(images)
   end
 
   # GET /images/1 or /images/1.json
