@@ -4,7 +4,7 @@ class Image < ApplicationRecord
   validates :name, :file, presence: true
 
   belongs_to :user
-  has_many :image_tags
+  has_many :image_tags, dependent: :destroy
   has_many :tags, through: :image_tags
 
   before_validation :set_file_size
