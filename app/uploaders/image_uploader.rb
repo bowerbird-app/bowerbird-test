@@ -57,5 +57,6 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   def get_tags(file)
     GetTagsJob.perform_async(model.id)
+    model.image_tags.destroy_all
   end
 end
