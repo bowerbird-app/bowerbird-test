@@ -1,4 +1,6 @@
 module ApplicationHelper
+  include Pagy::Frontend
+
   def alert_mappings
     {
       alert: 'warning',

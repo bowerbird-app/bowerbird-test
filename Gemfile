@@ -74,3 +74,5 @@ gem "carrierwave-aws", "~> 1.4"
 gem "faraday", "~> 2.2", require: false
 
 gem "sidekiq", "~> 6.4"
+
+gem "pagy", "~> 5.10"

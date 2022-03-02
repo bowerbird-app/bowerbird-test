@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include Pagy::Backend
+
   rescue_from ActiveRecord::RecordNotFound, with: :redirect_to_root_path
 
   private
