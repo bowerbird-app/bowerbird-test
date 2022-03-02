@@ -29,7 +29,7 @@ RSpec.describe "Tags", type: :request do
         get tags_path
         expect(response).to have_http_status(200)
         expect(response).to render_template('tags/index')
-        expect(assigns(:tags)).to match_array(user.tags.uniq)
+        expect(assigns(:tags)).to match_array(user.tags.distinct)
       end
     end
   end

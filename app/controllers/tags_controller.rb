@@ -4,7 +4,7 @@ class TagsController < ApplicationController
 
   # GET /tags or /tags.json
   def index
-    @tags = current_user.tags.uniq
+    @pagy, @tags = pagy(current_user.tags.distinct)
   end
 
   # GET /tags/1 or /tags/1.json
