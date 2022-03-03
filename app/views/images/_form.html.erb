@@ -1,32 +1,26 @@
-<%= form_with model: image, multipart: true do |form| %>
-  <% if image.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(image.errors.count, "error") %> prohibited this image from being saved:</h2>
+<div class="modal fade" id="newImage" tabindex="-1" aria-labelledby="newImageLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h2 class="text-center" id="newImageLabel">Upload Image</h2>
+      </div>
+      <div class="modal-body">
+        <%= form_with model: image, multipart: true do |form| %>
+          <div class="mb-3">
+            <%= form.label :name, class: "form-label" %>
+            <%= form.text_field :name, class: "form-control" %>
+          </div>
 
-      <ul>
-        <% image.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+          <div class="mb-3">
+            <%= form.label :file, class: 'form-label' %>
+            <%= form.file_field :file, class: 'form-control' %>
+          </div>
+
+          <div class="d-flex justify-content-end">
+            <%= form.submit "Submit", class: "btn btn-dark" %>
+          </div>
         <% end %>
-      </ul>
+      </div>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
   </div>
-
-  <div class="field">
-    <%= form.label :file %>
-    <%= form.file_field :file %>
-  </div>
-
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_area :description %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>

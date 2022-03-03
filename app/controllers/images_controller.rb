@@ -1,18 +1,21 @@
 class ImagesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_image, only: %i[ show edit update destroy ]
 
   # GET /images or /images.json
   def index
-    @images = Image.all
+    images = current_user.images
+                          .by_tag_name(params[:tags])
+                          .query(params[:query])
+                          .order(created_at: :desc)
+                          .includes(:tags)
+
+    @tags = images.tags_with_count(with_total: true)
+    @pagy, @images = pagy(images)
   end
 
   # GET /images/1 or /images/1.json
   def show
-  end
-
-  # GET /images/new
-  def new
-    @image = Image.new
   end
 
   # GET /images/1/edit
@@ -21,15 +24,18 @@ class ImagesController < ApplicationController
 
   # POST /images or /images.json
   def create
-    @image = Image.new(image_params)
+    @image = current_user.images.new(image_params)
 
     respond_to do |format|
       if @image.save
-        format.html { redirect_to @image, notice: "Image was successfully created." }
-        format.json { render :show, status: :created, location: @image }
+        format.html do
+          redirect_to @image, notice: "Image was successfully created."
+        end
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @image.errors, status: :unprocessable_entity }
+        format.html do
+          flash[:alert] = @image.errors.full_messages
+          redirect_back fallback_location: root_path
+        end
       end
     end
   end
@@ -59,7 +65,7 @@ class ImagesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_image
-      @image = Image.find(params[:id])
+      @image = current_user.images.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.

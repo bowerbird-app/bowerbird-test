@@ -1,9 +1,14 @@
-<p id="notice"><%= notice %></p>
+<div class="card shadow p-5">
+  <div class="card-body">
+    <h1 class="card-title mb-3">
+      Tags / <%= @tag.name %>
+    </h1>
 
-<p>
-  <strong>Name:</strong>
-  <%= @tag.name %>
-</p>
+    <%= render partial: 'shared/search_form' %>
 
-<%= link_to 'Edit', edit_tag_path(@tag) %> |
-<%= link_to 'Back', tags_path %>
+    <br>
+
+    <%= render partial: 'images/image_list', locals: { images: @images } %>
+  </div>
+</div>
+

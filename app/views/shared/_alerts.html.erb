@@ -1,0 +1,16 @@
+<div class="container">
+  <% flash.each do |type, message| %>
+    <div class="alert alert-<%= alert_mappings[type.to_sym] %> alert-dismissible fade show" role="alert">
+      <% if message.is_a? String %>
+        <%= message %>
+      <% elsif message.is_a? Array %>
+        <ul class=mb-0>
+          <% message.each do |m| %>
+            <li><%= m %></li>
+          <% end %>
+        </ul>
+      <% end %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% end %>
+</div>

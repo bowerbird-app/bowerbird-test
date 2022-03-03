@@ -36,6 +36,9 @@ gem 'bootsnap', '>= 1.4.4', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'rspec-rails'
+  gem 'faker'
+  gem 'factory_bot_rails', '~> 6.2'
 end
 
 group :development do
@@ -50,11 +53,9 @@ group :development do
 end
 
 group :test do
-
-  gem 'rspec-rails'
-  gem 'faker'
   # for assert_template
   gem 'rails-controller-testing'
+  gem 'shoulda-matchers', '~> 5.1'
 
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 3.26'
@@ -65,3 +66,13 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem "devise", "~> 4.8"
+
+gem "carrierwave-aws", "~> 1.4"
+
+gem "faraday", "~> 2.2", require: false
+
+gem "sidekiq", "~> 6.4"
+
+gem "pagy", "~> 5.10"

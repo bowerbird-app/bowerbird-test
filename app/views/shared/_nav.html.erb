@@ -1,0 +1,41 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+  <div class="container-fluid">
+    <%= link_to 'BowerBird', root_path, class: 'navbar-brand' %>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+      <ul class="navbar-nav mb-2 mb-lg-0">
+        <% if current_user %>
+          <li class="nav-item">
+            <%= link_to images_path, class: 'nav-link' do %>
+              <i class="bi bi-image-fill"></i> Images
+            <% end %>
+          </li>
+          <li class="nav-item">
+            <%= link_to tags_path, class: 'nav-link' do %>
+              <i class="bi bi-hash"></i> Tags
+            <% end %>
+          </li>
+          <li class="nav-item">
+            <%= link_to destroy_user_session_path, class: 'nav-link', method: :delete do %>
+              <i class="bi bi-box-arrow-right"></i> Logout
+            <% end %>
+          </li>
+
+        <% else %>
+          <li class="nav-item">
+            <%= link_to new_user_registration_path, class: 'nav-link' do %>
+              <i class="bi bi-person-plus-fill"></i> Sign Up
+            <% end %>
+          </li>
+          <li class="nav-item">
+            <%= link_to root_path, class: 'nav-link' do %>
+              <i class="bi bi-box-arrow-in-left"></i> Sign In
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>
