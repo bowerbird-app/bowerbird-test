@@ -13,7 +13,7 @@ RSpec.describe Image, type: :model do
 
   context 'association test' do
     it { should belong_to(:user) }
-    it { should have_many(:image_tags) }
+    it { should have_many(:image_tags).dependent(:destroy) }
     it { should have_many(:tags).through(:image_tags) }
   end
 end

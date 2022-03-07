@@ -24,8 +24,8 @@ RSpec.describe User, type: :model do
   end
 
   context 'association test' do
-    it { should have_many(:images) }
-    it { should have_many(:tags) }
+    it { should have_many(:images).dependent(:destroy) }
+    it { should have_many(:tags).dependent(:destroy) }
     it { should have_many(:tag_views) }
   end
 end
