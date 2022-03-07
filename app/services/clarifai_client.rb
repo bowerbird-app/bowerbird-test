@@ -1,7 +1,7 @@
 class ClarifaiClient
   include ActiveSupport::Configurable
   
-  MINIMUM_PREDICTION_VALUE = 0.99
+  MINIMUM_PREDICTION_VALUE = 0.9
 
   def initialize(opt = {})
     @minimum_prediction_value = opt[:minimum_prediction_value] || MINIMUM_PREDICTION_VALUE
