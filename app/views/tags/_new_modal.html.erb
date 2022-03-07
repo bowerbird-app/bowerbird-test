@@ -1,0 +1,20 @@
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h4 class="modal-title text-center pt-3 pb-3" id="exampleModalLabel">Create New Tag</h4>
+        <div class="m-4">
+          <%= form_with model: Tag.new, multipart: true do |form| %>
+            <div class="mb-4">
+              <%= form.label :Name, class: "form-label" %>
+              <%= form.text_field :name, class: "form-control", placeholder: "Building" %>
+            </div>
+            <div style="text-align: right;">
+              <%= form.submit "Create", class: "btn btn-primary btn-sm bg-dark light-text rounded-3" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

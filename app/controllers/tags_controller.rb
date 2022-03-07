@@ -1,9 +1,11 @@
 class TagsController < ApplicationController
+  before_action :set_tags, only: [:index]
   before_action :set_tag, only: %i[ show edit update destroy ]
+  before_action :set_images, only: [:show]
 
   # GET /tags or /tags.json
   def index
-    @tags = Tag.all
+    @pagy, @tags = pagy(@tags)
   end
 
   # GET /tags/1 or /tags/1.json
@@ -12,7 +14,7 @@ class TagsController < ApplicationController
 
   # GET /tags/new
   def new
-    @tag = Tag.new
+    @tag = current_user.tags.new
   end
 
   # GET /tags/1/edit
@@ -21,7 +23,7 @@ class TagsController < ApplicationController
 
   # POST /tags or /tags.json
   def create
-    @tag = Tag.new(tag_params)
+    @tag = current_user.tags.new(tag_params)
 
     respond_to do |format|
       if @tag.save
@@ -59,11 +61,24 @@ class TagsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_tag
-      @tag = Tag.find(params[:id])
+      @tag = current_user.tags.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def tag_params
       params.require(:tag).permit(:name)
+    end
+
+    def set_tags
+      @tags = current_user.tag_views
+      @tags = @tags.query_by_name(params[:name]) if params[:name].present?
+      @tags = name_sortable(@tags)
+    end
+
+    def set_images
+      @images = @tag.images.includes(:tags)
+      @images = @images.query_by_name(params[:name]) if params[:name].present?
+      @images = name_sortable(@images)
+      @pagy, @images = pagy(@images)
     end
 end

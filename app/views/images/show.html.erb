@@ -1,19 +1,37 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Name:</strong>
-  <%= @image.name %>
-</p>
-
-<p>
-  <strong>File:</strong>
-  <%= @image.file %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @image.description %>
-</p>
-
-<%= link_to 'Edit', edit_image_path(@image) %> |
-<%= link_to 'Back', images_path %>
+<div class="py-5 px-4" style="background-color: #f1f1f1; min-height: calc(100vh - 58px);">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-12">
+              <div class="card">
+                  <div class="card-body p-4 m-4">
+                      <h4 class="card-title mb-4 fw-normal">
+                          Images / <%= @image.name %>
+                      </h4>
+                      <div class="row">
+                          <div class="col-md-4 image-show-card">
+                              <img src="<%= @image.file.url %>" class="rounded">
+                          </div>
+                          <div class="col-md-8 px-4">
+                              <p class="fs-2 fw-bold pt-3"><%= @image.name %></p>
+                              <p class="fs-6 pt-2"><%= number_to_human_size(@image.size) %></p>
+                              <%= link_to 'Edit', edit_image_path(@image), class: "btn bg-white border fs-6 mr-2" %>
+                              <%= link_to image_path(@image), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn bg-white border fs-6" do %>
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                      fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                      <path
+                                          d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                                  </svg>
+                                  <span>Delete</span>
+                              <% end %>
+                              <h6 class="mt-4">Tags</h6>
+                              <% @image.tags.each do |tag| %>
+                              <%= link_to tag.name, tag_path(tag), class: "tag-name border border-light badge bg-light text-dark" %>
+                              <% end %>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

@@ -14,6 +14,14 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
+  # stubbing the Clarifai API call response
+  config.before(:each) do
+    stub_request(:get, /chromedriver.storage.googleapis.com/).to_rack(FakeChromeDriver)
+    stub_request(:get, /.*/).with(headers: { 'Host'=>'loremflickr.com',})
+                            .to_return(status: 200, body: File.new(Rails.root.join('spec/fixtures/glass-building.jpeg')))
+    stub_request(:any, /api.clarifai.com/).to_rack(FakeClarifai)
+  end
+
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.

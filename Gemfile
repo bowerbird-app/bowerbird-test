@@ -12,7 +12,8 @@ gem 'rails', '~> 6.1.4'
 gem 'pg'
 
 # Use carrierwave for uploader
-gem 'carrierwave', '1.3.2'
+gem 'carrierwave', '~> 2.2.2'
+gem "fog-aws", "~> 3.13"
 
 # Use Puma as the app server
 gem 'puma', '~> 5.0'
@@ -36,6 +37,7 @@ gem 'bootsnap', '>= 1.4.4', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem "dotenv-rails", "~> 2.7"
 end
 
 group :development do
@@ -50,6 +52,15 @@ group :development do
 end
 
 group :test do
+  # using webmork to stub http request for external API
+  # and sinatra to provive a mock response
+  gem "webmock", "~> 3.14"
+  gem "sinatra", "~> 2.2"
+  # model testing matchers
+  gem "shoulda", "~> 4.0"
+  
+  # generate fake data using factory_bot
+  gem "factory_bot_rails", "~> 6.2"
 
   gem 'rspec-rails'
   gem 'faker'
@@ -65,3 +76,15 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+# http 1.1 library for making API calls
+gem "excon", "~> 0.91.0"
+
+# using devise for user authentication
+gem "devise", "~> 4.8"
+
+# using pagy for pagination
+gem "pagy", "~> 5.10"
+
+# using db view to aggregate total image count
+gem "scenic", "~> 1.6"

@@ -1,9 +1,10 @@
 class ImagesController < ApplicationController
+  before_action :set_tags, :set_images, only: [:index]
   before_action :set_image, only: %i[ show edit update destroy ]
 
   # GET /images or /images.json
   def index
-    @images = Image.all
+    @pagy, @images = pagy(@images)
   end
 
   # GET /images/1 or /images/1.json
@@ -12,7 +13,7 @@ class ImagesController < ApplicationController
 
   # GET /images/new
   def new
-    @image = Image.new
+    @image = current_user.images.new
   end
 
   # GET /images/1/edit
@@ -21,7 +22,7 @@ class ImagesController < ApplicationController
 
   # POST /images or /images.json
   def create
-    @image = Image.new(image_params)
+    @image = current_user.images.new(image_params)
 
     respond_to do |format|
       if @image.save
@@ -59,11 +60,24 @@ class ImagesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_image
-      @image = Image.find(params[:id])
+      @image = current_user.images.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def image_params
       params.require(:image).permit(:name, :file, :description)
+    end
+
+    def set_images
+      @all_images = @images = current_user.images.includes(:tags)
+      @all_images = @images = @images.query_by_name(params[:name]) if params[:name].present?
+      @images = @images.filter_by_tag(params[:tag_id]) if params[:tag_id].present?
+      @images = name_sortable(@images)
+    end
+
+    def set_tags
+      # we just want the tags with images
+      @tags = Tag.includes(:image_tags).where.not(image_tags: { image_id: nil })
+      @tags = @tags.includes(:images).where('images.name ILIKE ?', "%#{params[:name]}%") if params[:name].present?
     end
 end
